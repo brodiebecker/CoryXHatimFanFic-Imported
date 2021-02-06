@@ -26,8 +26,7 @@ public class RobotContainer {
   public final static DriveTrain driveTrain = new DriveTrain();
 
   private final PlsWork plsWork = new PlsWork(driveTrain);
-
-
+  private final Autonomous autonomous = new Autonomous(driveTrain);
    /**
    * The Driver Joystick declaration and the button definitions associated with it.
    */
@@ -78,8 +77,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return null;
+    //Chooses which command will run during autonomous
+    return autonomous;
   }
   public static double getDriverAxis(int axis) {
     if (axis == 1 || axis == 5) {

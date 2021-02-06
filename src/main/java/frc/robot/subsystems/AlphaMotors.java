@@ -224,7 +224,7 @@ public class AlphaMotors extends SubsystemBase {
      * @return (void)
      */
 
-    private void stopMotors() {
+    public void stopMotors() {
         rotationMotor.set(ControlMode.PercentOutput, 0);
     }
 

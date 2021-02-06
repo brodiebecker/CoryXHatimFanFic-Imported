@@ -62,6 +62,8 @@ public class DriveTrain extends SubsystemBase {
         // This method will be called once per scheduler run
     }
 
+
+
     public void moveSwerveAxis(double leftX, double leftY, double rightX, double mod) {
         leftY*=-1;
 
@@ -90,6 +92,75 @@ public class DriveTrain extends SubsystemBase {
         ahh = (long) FLAngle;
         deleteMeMore = FLAngle;
     }
+
+
+
+
+    public static void autonomousMotorControll(double speed, double direction, double rotation) {
+        // Converting to direction
+  
+        // Declaring variables used;
+        double y;
+        double x;
+        int quadrant;
+  
+        // Ensuring that rotation cannot lie on an axis, otherwise will divide by 0
+        if (direction == 90 || direction == 180 || direction == 360) {
+          direction--;
+        } else if (direction == 0) {
+          direction++;
+        }
+        ;
+  
+        // Setting quadrants in order to decide which operation to use
+        if (direction > 0 && direction < 90) {
+          quadrant = 1;
+        } else if (direction > 90 && direction < 180) {
+          quadrant = 2;
+        } else if (direction > 180 && direction < 270) {
+          quadrant = 3;
+        } else if (direction > 270 && direction < 360) {
+          quadrant = 4;
+        } else {
+          quadrant = 0;
+        }
+  
+        // Converting degrees to Radians, as that is default for Java
+        // double rotationRadians = rotation * 0.01745329252;
+  
+        // Changing operations depending on what quadrant rotation is in
+        switch (quadrant) {
+          case 1:
+            x = Math.cos(direction * 0.01745329252);
+            y = Math.sin(direction * 0.01745329252);
+            break;
+          case 2:
+            y = Math.cos((90 - direction) * 0.01745329252);
+            x = Math.sin((90 - direction) * 0.01745329252);
+            break;
+          case 3:
+            x = Math.cos((180 - direction) * 0.01745329252);
+            y = Math.sin((180 - direction) * 0.01745329252);
+            break;
+          case 4:
+            y = Math.cos((270 - direction) * 0.01745329252);
+            x = Math.sin((270 - direction) * 0.01745329252);
+            break;
+          default:
+            x = 0;
+            y = 0;
+            break;
+        }
+  
+        y *= speed;
+        x *= speed;
+    
+    //Inputting results into drive programming.
+    RobotContainer.driveTrain.moveSwerveAxis(x, y, rotation, 1);
+    
+    
+    }
+
 
     public void zeroAllEncoders() {
         motorFL.zeroEncoder();

@@ -37,7 +37,7 @@ public class PlsWork extends CommandBase {
         driveTrain.moveSwerveAxis(RobotContainer.getDriverAxis(0),
                 RobotContainer.driverJoystick.getRawAxis(1),
                 RobotContainer.getDriverAxis(4),
-                .25);
+                .3);
     }
 
     // Called once the command ends or is interrupted.
