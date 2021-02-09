@@ -31,8 +31,14 @@ public class Autonomous extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (edu.wpi.first.wpilibj.Timer.getFPGATimestamp() < startTime) {
+    if ((edu.wpi.first.wpilibj.Timer.getFPGATimestamp() - startTime) < 2) {
       RobotContainer.driveTrain.autonomousMotorControll(.25, 0, 0);
+    }else if ((edu.wpi.first.wpilibj.Timer.getFPGATimestamp() - startTime) > 2 & (edu.wpi.first.wpilibj.Timer.getFPGATimestamp() - startTime) < 4) {
+      RobotContainer.driveTrain.autonomousMotorControll(.25, 90, 0);
+    }else if ((edu.wpi.first.wpilibj.Timer.getFPGATimestamp() - startTime) > 4 & (edu.wpi.first.wpilibj.Timer.getFPGATimestamp() - startTime) < 6) {
+      RobotContainer.driveTrain.autonomousMotorControll(.25, 90, 0);
+    }else if ((edu.wpi.first.wpilibj.Timer.getFPGATimestamp() - startTime) > 6 & (edu.wpi.first.wpilibj.Timer.getFPGATimestamp() - startTime) < 8) {
+      RobotContainer.driveTrain.autonomousMotorControll(.25, 90, 0);
     }else{
       RobotContainer.driveTrain.autonomousMotorControll(0, 0, 0);
     }

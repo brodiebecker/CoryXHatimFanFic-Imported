@@ -97,6 +97,7 @@ public class DriveTrain extends SubsystemBase {
 
 
     public static void autonomousMotorControll(double speed, double direction, double rotation) {
+
         // Converting to direction
   
         // Declaring variables used;
