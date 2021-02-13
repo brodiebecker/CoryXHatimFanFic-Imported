@@ -27,8 +27,8 @@ public final class Constants {
 
 
     //Robot Size wheel to wheel
-    public static double length = 28.25;
-    public static double width = 18.125;
+    public static double length = 18.125;
+    public static double width = 28.25;
 
 
 

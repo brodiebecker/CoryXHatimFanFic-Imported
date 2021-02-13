@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.AlphaMotors;
 import frc.robot.subsystems.DriveTrain;
@@ -14,7 +15,8 @@ public class Autonomous extends CommandBase {
 
   private DriveTrain driveTrain;
 
-  private double startTime;
+  private double autoStartTime;
+  private double currentTime;
 
   public Autonomous(DriveTrain drivesub) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -25,23 +27,13 @@ public class Autonomous extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    startTime = edu.wpi.first.wpilibj.Timer.getFPGATimestamp();
+    autoStartTime = edu.wpi.first.wpilibj.Timer.getFPGATimestamp();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if ((edu.wpi.first.wpilibj.Timer.getFPGATimestamp() - startTime) < 2) {
-      RobotContainer.driveTrain.autonomousMotorControll(.25, 0, 0);
-    }else if ((edu.wpi.first.wpilibj.Timer.getFPGATimestamp() - startTime) > 2 & (edu.wpi.first.wpilibj.Timer.getFPGATimestamp() - startTime) < 4) {
-      RobotContainer.driveTrain.autonomousMotorControll(.25, 90, 0);
-    }else if ((edu.wpi.first.wpilibj.Timer.getFPGATimestamp() - startTime) > 4 & (edu.wpi.first.wpilibj.Timer.getFPGATimestamp() - startTime) < 6) {
-      RobotContainer.driveTrain.autonomousMotorControll(.25, 90, 0);
-    }else if ((edu.wpi.first.wpilibj.Timer.getFPGATimestamp() - startTime) > 6 & (edu.wpi.first.wpilibj.Timer.getFPGATimestamp() - startTime) < 8) {
-      RobotContainer.driveTrain.autonomousMotorControll(.25, 90, 0);
-    }else{
-      RobotContainer.driveTrain.autonomousMotorControll(0, 0, 0);
-    }
+    RobotContainer.driveTrain.autonomousMotorControll(.25, 0, 0);
   }
 
   // Called once the command ends or is interrupted.
