@@ -7,15 +7,10 @@
 
 package frc.robot.subsystems;
 
-import javax.management.timer.Timer;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FollowerType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class DriveTrain extends SubsystemBase {
@@ -38,6 +33,7 @@ public class DriveTrain extends SubsystemBase {
   public double l;
   public double w;
   public double r;
+  private static boolean gyroEnabled;
 
   public double deleteMeMore;
   public long ahh;
@@ -93,26 +89,65 @@ public class DriveTrain extends SubsystemBase {
     deleteMeMore = FLAngle;
   }
 
+  //Allowing to set gyro stabilization
+
+  public void gyroStabilization(int enabled) {
+    switch (enabled){
+      case 0:
+      gyroEnabled = false;
+      break;
+      case 1:
+      gyroEnabled = true;
+      break;
+    }
+  }
+
+      // Maintaining heading via gyro - DISABLED, CAUSING ISSUES!
+      public void driveWithGyro(double y, double x, double rotation, double modifier, String type) {
+      if(gyroEnabled) {
+        if (Math.abs(rotation) > .5) {
+          RobotContainer.gyro.reset();
+        }else if (Math.abs(rotation) < .2 && Math.abs(RobotContainer.gyro.getAngle()) > 2) {
+          rotation -= .5;
+        } else if (Math.abs(rotation) < .2 && RobotContainer.gyro.getAngle() < -2) {
+          rotation += .5;
+        }
+      }
+
+      switch (type) {
+        case "TeleOp":
+      moveSwerveAxis(x, y, rotation, modifier);
+      break;
+      case "Auto":
+      autonomousMotorControll(modifier, y, rotation);
+      break;
+      }
+    }
+
   public static void autonomousMotorControll(double speed, double direction, double rotation) {
 
     // CONTROLLING ROTATION
 
-    // Maintaining heading via gyro
-    if (Math.abs(rotation) > .5) {
-      RobotContainer.gyro.reset();
-    }
-    if (Math.abs(rotation) < .1 && Math.abs(RobotContainer.gyro.getAngle()) > 1) {
-      rotation -= .25;
-    } else if (Math.abs(rotation) < .1 && RobotContainer.gyro.getAngle() < -1) {
-      rotation += .25;
-    }
+        // Maintaining heading via gyro - DISABLED, CAUSING ISSUES!
 
+/*
+        if(gyroEnabled) {
+          if (Math.abs(rotation) > .5) {
+            RobotContainer.gyro.reset();
+          }else if (Math.abs(rotation) < .2 && Math.abs(RobotContainer.gyro.getAngle()) > 2) {
+            rotation -= .5;
+          } else if (Math.abs(rotation) < .2 && RobotContainer.gyro.getAngle() < -2) {
+            rotation += .5;
+          }
+        }
+        */
     // CONTROLLING DIRECTION
 
     if (direction > 360) {
       direction = 1;
+    }else if(direction < 0) {
+      direction = 360 + direction;
     }
-    ;
 
     // Declaring variables used;
     double y;
@@ -123,9 +158,12 @@ public class DriveTrain extends SubsystemBase {
     if (direction == 90 || direction == 180 || direction == 270 || direction == 360) {
       direction--;
     }
-    ;
+    if(direction == 0) {
+      direction++;
+    }
 
     // Setting quadrants in order to decide which operation to use
+
     if (direction > 0 && direction < 90) {
       quadrant = 1;
     } else if (direction > 90 && direction < 180) {
@@ -142,34 +180,35 @@ public class DriveTrain extends SubsystemBase {
     double directionRadians = direction * 0.01745329252;
 
     // Changing operations depending on what quadrant rotation is in
+
     switch (quadrant) {
       case 1:
-        y = Math.cos(directionRadians);
-        x = Math.sin(directionRadians);
+        x = Math.cos((direction * 0.01745329252));
+        y = Math.sin((direction * 0.01745329252));
         break;
       case 2:
-        x = Math.cos(90 - directionRadians);
-        y = Math.sin(90 - directionRadians);
+        y = Math.cos(90 - (direction * 0.01745329252));
+        x = Math.sin(90 - (direction * 0.01745329252));
         break;
       case 3:
-        y = Math.cos(180 - directionRadians);
-        x = Math.sin(180 - directionRadians);
+        y = Math.cos(180 - (direction * 0.01745329252));
+        x = Math.sin(180 - (direction * 0.01745329252));
         break;
       case 4:
-        x = Math.cos(270 - directionRadians);
-        y = Math.sin(270 - directionRadians);
+        x = Math.cos(270 - (direction * 0.01745329252));
+        y = Math.sin(270 - (direction * 0.01745329252));
         break;
       default:
-        y = 0;
         x = 0;
+        y = 0;
         break;
     }
 
-    y *= (speed * -1);
-    x *= speed;
+    y *= speed;
+    x *= speed * -1;
 
     // Inputting results into drive programming.
-    RobotContainer.driveTrain.moveSwerveAxis(x, y, rotation, 1);
+    RobotContainer.driveTrain.moveSwerveAxis(y, x, rotation, 1);
   }
 
   public void zeroAllEncoders() {

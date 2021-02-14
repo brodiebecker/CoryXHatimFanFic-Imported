@@ -8,7 +8,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 
@@ -34,10 +33,11 @@ public class PlsWork extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        driveTrain.moveSwerveAxis(RobotContainer.getDriverAxis(0),
-                RobotContainer.driverJoystick.getRawAxis(1),
-                RobotContainer.getDriverAxis(4),
-                .3);
+        driveTrain.moveSwerveAxis(
+        RobotContainer.driverJoystick.getRawAxis(0),
+        RobotContainer.driverJoystick.getRawAxis(1),
+        RobotContainer.driverJoystick.getRawAxis(4), 
+        .3);
     }
 
     // Called once the command ends or is interrupted.
