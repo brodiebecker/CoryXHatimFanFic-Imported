@@ -26,21 +26,35 @@ public class Autonomous extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
+    RobotContainer.driveTrain.findAllZeros();
+    RobotContainer.gyro.calibrate();
+
+
     autoStartTime = edu.wpi.first.wpilibj.Timer.getFPGATimestamp();
-    RobotContainer.driveTrain.gyroStabilization(1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     currentTime=edu.wpi.first.wpilibj.Timer.getFPGATimestamp()-autoStartTime;
-RobotContainer.driveTrain.autonomousMotorControll(.3, 45, 0);
+    if(currentTime > 2 && currentTime < 7) {
+      RobotContainer.driveTrain.autonomousMotorControll(.3, 0, 0);
+    }else if(currentTime > 7 && currentTime < 8.5) {
+      RobotContainer.driveTrain.autonomousMotorControll(.3, 90, 0);
+    }else if(currentTime > 8.5 && currentTime < 9.5) {
+        RobotContainer.driveTrain.autonomousMotorControll(0, 0, .25);
+    }else{
+      RobotContainer.driveTrain.autonomousMotorControll(0, 0, 0);
+    }
     SmartDashboard.putNumber("CurrentTime", currentTime);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    RobotContainer.driveTrain.autonomousMotorControll(0, 0, 0);
+  }
 
   // Returns true when the command should end.
   @Override

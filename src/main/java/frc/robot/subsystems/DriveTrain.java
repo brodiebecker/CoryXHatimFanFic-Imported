@@ -44,8 +44,8 @@ public class DriveTrain extends SubsystemBase {
     motorRL = new AlphaMotors(6, 5, 14, 13, 2);
     motorRR = new AlphaMotors(8, 7, 16, 15, 3);
 
-    //Not used, deprecated by AlphaMotors Clcass
-    
+    // Not used, deprecated by AlphaMotors Clcass
+
     // frontLeftDriveMotor = new TalonFX(1);
     // frontRightDriveMotor = new TalonFX(3);
     // rearLeftDriveMotor = new TalonFX(5);
@@ -89,63 +89,12 @@ public class DriveTrain extends SubsystemBase {
     deleteMeMore = FLAngle;
   }
 
-  //Allowing to set gyro stabilization
-
-  public void gyroStabilization(int enabled) {
-    switch (enabled){
-      case 0:
-      gyroEnabled = false;
-      break;
-      case 1:
-      gyroEnabled = true;
-      break;
-    }
-  }
-
-      // Maintaining heading via gyro - DISABLED, CAUSING ISSUES!
-      public void driveWithGyro(double y, double x, double rotation, double modifier, String type) {
-      if(gyroEnabled) {
-        if (Math.abs(rotation) > .5) {
-          RobotContainer.gyro.reset();
-        }else if (Math.abs(rotation) < .2 && Math.abs(RobotContainer.gyro.getAngle()) > 2) {
-          rotation -= .5;
-        } else if (Math.abs(rotation) < .2 && RobotContainer.gyro.getAngle() < -2) {
-          rotation += .5;
-        }
-      }
-
-      switch (type) {
-        case "TeleOp":
-      moveSwerveAxis(x, y, rotation, modifier);
-      break;
-      case "Auto":
-      autonomousMotorControll(modifier, y, rotation);
-      break;
-      }
-    }
-
   public static void autonomousMotorControll(double speed, double direction, double rotation) {
-
-    // CONTROLLING ROTATION
-
-        // Maintaining heading via gyro - DISABLED, CAUSING ISSUES!
-
-/*
-        if(gyroEnabled) {
-          if (Math.abs(rotation) > .5) {
-            RobotContainer.gyro.reset();
-          }else if (Math.abs(rotation) < .2 && Math.abs(RobotContainer.gyro.getAngle()) > 2) {
-            rotation -= .5;
-          } else if (Math.abs(rotation) < .2 && RobotContainer.gyro.getAngle() < -2) {
-            rotation += .5;
-          }
-        }
-        */
     // CONTROLLING DIRECTION
 
     if (direction > 360) {
       direction = 1;
-    }else if(direction < 0) {
+    } else if (direction < 0) {
       direction = 360 + direction;
     }
 
@@ -158,7 +107,7 @@ public class DriveTrain extends SubsystemBase {
     if (direction == 90 || direction == 180 || direction == 270 || direction == 360) {
       direction--;
     }
-    if(direction == 0) {
+    if (direction == 0) {
       direction++;
     }
 
@@ -187,15 +136,15 @@ public class DriveTrain extends SubsystemBase {
         y = Math.sin((direction * 0.01745329252));
         break;
       case 2:
-        y = Math.cos(90 - (direction * 0.01745329252));
+        y = Math.cos(90 - (direction * 0.01745329252)) * -1;
         x = Math.sin(90 - (direction * 0.01745329252));
         break;
       case 3:
-        y = Math.cos(180 - (direction * 0.01745329252));
-        x = Math.sin(180 - (direction * 0.01745329252));
+        y = Math.cos(180 - (direction * 0.01745329252) * -1);
+        x = Math.sin(180 - (direction * 0.01745329252) * -1);
         break;
       case 4:
-        x = Math.cos(270 - (direction * 0.01745329252));
+        x = Math.cos(270 - (direction * 0.01745329252) * -1);
         y = Math.sin(270 - (direction * 0.01745329252));
         break;
       default:

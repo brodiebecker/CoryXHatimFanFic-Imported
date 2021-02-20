@@ -60,27 +60,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    SmartDashboard.putNumber("FL Encoder", RobotContainer.driveTrain.motorFL.encoderValue());
-    SmartDashboard.putNumber("FR Encoder", RobotContainer.driveTrain.motorFR.encoderValue());
-    SmartDashboard.putNumber("RL Encoder", RobotContainer.driveTrain.motorRL.encoderValue());
-    SmartDashboard.putNumber("RR Encoder", RobotContainer.driveTrain.motorRR.encoderValue());
-
-    SmartDashboard.putNumber("FL Remaining", RobotContainer.driveTrain.motorFL.encoderRemainingValue);
-    SmartDashboard.putNumber("FR Remaining", RobotContainer.driveTrain.motorFR.encoderRemainingValue);
-    SmartDashboard.putNumber("RL Remaining", RobotContainer.driveTrain.motorRL.encoderRemainingValue);
-    SmartDashboard.putNumber("RR Remaining", RobotContainer.driveTrain.motorRR.encoderRemainingValue);
-
-    SmartDashboard.putNumber("FL Target", RobotContainer.driveTrain.motorFL.directionTarget);
-    SmartDashboard.putNumber("FR Target", RobotContainer.driveTrain.motorFR.directionTarget);
-    SmartDashboard.putNumber("RL Target", RobotContainer.driveTrain.motorRL.directionTarget);
-    SmartDashboard.putNumber("RR Target", RobotContainer.driveTrain.motorRR.directionTarget);
-
-    SmartDashboard.putBoolean("FL Prox", RobotContainer.driveTrain.motorFL.proxValue());
-    SmartDashboard.putBoolean("FR Prox", RobotContainer.driveTrain.motorFR.proxValue());
-    SmartDashboard.putBoolean("RL Prox", RobotContainer.driveTrain.motorRL.proxValue());
-    SmartDashboard.putBoolean("RR Prox", RobotContainer.driveTrain.motorRR.proxValue());
-
-    SmartDashboard.putNumber("angle", AlphaMotors.deleteMe);
   }
 
   /**
@@ -95,8 +74,8 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.schedule();
     }
     
-    RobotContainer.driveTrain.findAllZeros();
-    RobotContainer.gyro.calibrate();
+    // RobotContainer.driveTrain.findAllZeros();
+    // RobotContainer.gyro.calibrate();
   }
 
   /**
