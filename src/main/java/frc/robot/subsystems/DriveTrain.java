@@ -9,8 +9,10 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class DriveTrain extends SubsystemBase {
@@ -38,6 +40,10 @@ public class DriveTrain extends SubsystemBase {
   public double deleteMeMore;
   public long ahh;
 
+
+
+  public double storedRotation;
+
   public DriveTrain() {
     motorFL = new AlphaMotors(2, 1, 12, 10, 0);
     motorFR = new AlphaMotors(4, 3, 18, 17, 1);
@@ -63,6 +69,9 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public void moveSwerveAxis(double leftX, double leftY, double rightX, double mod) {
+
+    double angle = RobotContainer.gyro.getAngle()/-90;
+    rightX += angle;
     leftY *= -1;
 
     double a = leftX - rightX * (l / r);
@@ -90,6 +99,41 @@ public class DriveTrain extends SubsystemBase {
   }
 
   public static void autonomousMotorControll(double speed, double direction, double rotation) {
+
+    double storedRotation = 0;
+
+    if(rotation == 0) {
+      if(RobotContainer.gyro.getAngle() > 1) {
+        storedRotation -= .03;
+      }else if(rotation < -1) {
+        storedRotation += .05;
+      }else{
+        rotation = 0;
+      }
+
+      rotation = storedRotation;
+      // Rotating using gyro
+    }else if (rotation != 0) {
+      double remainingRotation = rotation - RobotContainer.gyro.getAngle();
+      //Limiting Rotation
+      if(remainingRotation > 180) {
+        remainingRotation = 180;
+      }else if (remainingRotation < -180) {
+        remainingRotation = -180;
+      }
+
+      if(remainingRotation > 45) {
+        rotation = .2;
+      }else if(remainingRotation > 5 && remainingRotation < 45) {
+        rotation = .1;
+      }else if (remainingRotation < -45) {
+        rotation = -.2;
+      }else if (remainingRotation < 5 && remainingRotation > -45) {
+        rotation = -.1;
+      }else if (Math.abs(remainingRotation) < 5)
+      rotation = 0;
+    }
+
     // CONTROLLING DIRECTION
 
     if (direction > 360) {
@@ -158,6 +202,11 @@ public class DriveTrain extends SubsystemBase {
 
     // Inputting results into drive programming.
     RobotContainer.driveTrain.moveSwerveAxis(y, x, rotation, 1);
+
+    //Posting to SmartDashboard
+    SmartDashboard.putNumber("x", x);
+    SmartDashboard.putNumber("y", y);
+    SmartDashboard.putNumber("Rotation", rotation);
   }
 
   public void zeroAllEncoders() {

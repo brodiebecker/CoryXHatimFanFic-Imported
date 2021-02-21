@@ -10,7 +10,7 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveTrain;
 
 public class Autonomous extends CommandBase {
-  /** Creates a new Drive. */
+  /* Creates a new Drive. */
 
   private DriveTrain driveTrain;
 
@@ -33,20 +33,20 @@ public class Autonomous extends CommandBase {
 
     autoStartTime = edu.wpi.first.wpilibj.Timer.getFPGATimestamp();
   }
-
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    /*
     currentTime=edu.wpi.first.wpilibj.Timer.getFPGATimestamp()-autoStartTime;
-    if(currentTime > 2 && currentTime < 7) {
-      RobotContainer.driveTrain.autonomousMotorControll(.3, 0, 0);
-    }else if(currentTime > 7 && currentTime < 8.5) {
-      RobotContainer.driveTrain.autonomousMotorControll(.3, 90, 0);
-    }else if(currentTime > 8.5 && currentTime < 9.5) {
-        RobotContainer.driveTrain.autonomousMotorControll(0, 0, .25);
+    if(currentTime > 5 && currentTime < 7) {
+      RobotContainer.gyro.reset();
+    }else if (currentTime > 7 && currentTime < 8.5) {
+      RobotContainer.driveTrain.autonomousMotorControll(.75, 0, 0);
     }else{
+      RobotContainer.gyro.reset();
       RobotContainer.driveTrain.autonomousMotorControll(0, 0, 0);
     }
+    */
     SmartDashboard.putNumber("CurrentTime", currentTime);
   }
 

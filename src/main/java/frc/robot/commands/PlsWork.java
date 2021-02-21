@@ -37,7 +37,7 @@ public class PlsWork extends CommandBase {
         RobotContainer.driverJoystick.getRawAxis(0),
         RobotContainer.driverJoystick.getRawAxis(1),
         RobotContainer.driverJoystick.getRawAxis(4), 
-        .3);
+        .5);
     }
 
     // Called once the command ends or is interrupted.

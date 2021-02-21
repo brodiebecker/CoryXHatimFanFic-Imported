@@ -60,6 +60,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    SmartDashboard.putNumber("JoystickAis 4", RobotContainer.driverJoystick.getRawAxis(4));
   }
 
   /**
@@ -74,8 +75,8 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.schedule();
     }
     
-    // RobotContainer.driveTrain.findAllZeros();
-    // RobotContainer.gyro.calibrate();
+    RobotContainer.driveTrain.findAllZeros();
+    RobotContainer.gyro.calibrate();
   }
 
   /**
@@ -83,7 +84,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    SmartDashboard.putNumber("Rotation", RobotContainer.gyro.getAngle());
+    SmartDashboard.putNumber("GyroRotation", RobotContainer.gyro.getAngle());
   }
 
   @Override
@@ -95,9 +96,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-
+    //Gyro
+    RobotContainer.gyro.calibrate();
     RobotContainer.driveTrain.findAllZeros();
-    // RobotContainer.gyro.calibrate();
   }
 
   /**
@@ -105,7 +106,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    //Gyro
     SmartDashboard.putNumber("Rotation", RobotContainer.gyro.getAngle());
   }
 
